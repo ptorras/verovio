@@ -1345,9 +1345,13 @@ short int MusicXmlInput::ReadMusicXmlPartAttributesAsStaffDef(
             // if not, look at a common one
             if (!clef) {
                 clef = it->select_node("clef[not(@number)]");
-                if (nbStaves > 1) clef.node().remove_attribute("id");
+                // if (nbStaves > 1) clef.node().remove_attribute("id");
             }
             Clef *meiClef = ConvertClef(clef.node());
+
+            // To ensure that clef identifiers are propagated, create a unique ID for a clef falling on each staff
+            meiClef->SetID(StringFormat("%s_%d", meiClef->GetID().c_str(), i + 1));
+
             if (meiClef) {
                 staffDef->AddChild(meiClef);
                 // if TAB assume guitar tablature until we examine <staff-details>, if any
@@ -1359,10 +1363,13 @@ short int MusicXmlInput::ReadMusicXmlPartAttributesAsStaffDef(
             pugi::xpath_node key = it->select_node(xpath.c_str());
             if (!key) {
                 key = it->select_node("key[not(@number)]");
-                if (nbStaves > 1) key.node().remove_attribute("id");
+                // if (nbStaves > 1) key.node().remove_attribute("id");
             }
             if (key) {
                 KeySig *meiKey = ConvertKey(key.node());
+                // To ensure that clef identifiers are propagated, create a unique ID for a key falling on each staff
+                meiKey->SetID(StringFormat("%s_%d", meiKey->GetID().c_str(), i + 1));
+
                 staffDef->AddChild(meiKey);
                 if (staffDef->GetNotationtype() == NOTATIONTYPE_tab_guitar) meiKey->IsAttribute(true);
             }
