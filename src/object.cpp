@@ -116,16 +116,9 @@ Object::Object(const Object &object) : BoundingBox(object)
     m_attClasses = object.m_attClasses;
     m_interfaces = object.m_interfaces;
 
-    if (m_classId == CLEF or m_classId == KEYSIG or m_classId == METERSIG) {
-        // In the case of generating a Clef, Key Signature or Time Signature, a new identifier from the source object
-        // is produced that maps to the identifier in the source document.
-        // TODO: Create full identifier, right now only a copy is produced
-        m_id = object.m_id;
-    }
-    else {
-        // New id
-        this->GenerateID();
-    }
+    // Copy the identifier
+    m_id = object.m_id;
+
     // For now do not copy them
     m_unsupported = object.m_unsupported;
 
@@ -170,16 +163,10 @@ Object &Object::operator=(const Object &object)
         // Also copy attribute classes
         m_attClasses = object.m_attClasses;
         m_interfaces = object.m_interfaces;
-        if (m_classId == CLEF or m_classId == KEYSIG or m_classId == METERSIG) {
-            // In the case of copying a Clef, Key Signature or Time Signature, a new identifier from the source object
-            // is produced that maps to the identifier in the source document.
-            // TODO: Create full identifier, right now only a copy is produced
-            m_id = object.m_id;
-        }
-        else {
-            // New id
-            this->GenerateID();
-        }
+
+        // Copy the identifier
+        m_id = object.m_id;
+
         // For now do now copy them
         m_unsupported = object.m_unsupported;
         LinkingInterface *link = this->GetLinkingInterface();
