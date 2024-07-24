@@ -3183,6 +3183,7 @@ void MusicXmlInput::ReadMusicXmlNote(
         for (pugi::xml_node articulations : notations.node().children("articulations")) {
             for (pugi::xml_node articulation : articulations.children()) {
                 Artic *artic = new Artic();
+                if (articulation.attribute("id")) artic->SetID(articulation.attribute("id").as_string());
                 artics.push_back(ConvertArticulations(articulation.name()));
                 if (!std::strcmp(articulation.name(), "detached-legato")) {
                     // we need to split up this one
