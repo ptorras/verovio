@@ -3339,6 +3339,7 @@ void MusicXmlInput::ReadMusicXmlNote(
     pugi::xpath_node xmlCaesura = notations.node().select_node("articulations/caesura");
     if (xmlCaesura) {
         Caesura *caesura = new Caesura();
+        caesura->SetID(noteID + std::string(".caesura"));
         m_controlElements.push_back({ measureNum, caesura });
         caesura->SetStaff(staff->AttNInteger::StrToXsdPositiveIntegerList(std::to_string(staff->GetN())));
         caesura->SetPlace(
