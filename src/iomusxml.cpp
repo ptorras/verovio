@@ -3441,6 +3441,7 @@ void MusicXmlInput::ReadMusicXmlNote(
     pugi::xpath_node xmlMordent = notations.node().select_node("ornaments/*[contains(name(), 'mordent')]");
     if (xmlMordent) {
         Mordent *mordent = new Mordent();
+        mordent->SetID(noteID + std::string(".") + std::string(xmlMordent.node().name()));
         m_controlElements.push_back({ measureNum, mordent });
         mordent->SetStaff(staff->AttNInteger::StrToXsdPositiveIntegerList(std::to_string(staff->GetN())));
         mordent->SetStartid(m_ID);
@@ -3494,6 +3495,7 @@ void MusicXmlInput::ReadMusicXmlNote(
         = notations.node().select_node("ornaments/*[contains(name(), 'schleifer') or contains(name(), 'haydn')]");
     if (xmlExtOrnament) {
         Mordent *mordent = new Mordent();
+        mordent->SetID(noteID + std::string(".") + std::string(xmlExtOrnament.node().name()));
         m_controlElements.push_back({ measureNum, mordent });
         mordent->SetStaff(staff->AttNInteger::StrToXsdPositiveIntegerList(std::to_string(staff->GetN())));
         mordent->SetStartid(m_ID);
@@ -3512,6 +3514,7 @@ void MusicXmlInput::ReadMusicXmlNote(
     pugi::xpath_node xmlTrillLine = notations.node().select_node("ornaments/wavy-line[@type='start']");
     if (xmlTrill || xmlTrillLine) {
         Trill *trill = new Trill();
+        trill->SetID(noteID + std::string(".") + std::string(xmlTrill.node().name()));
         m_controlElements.push_back({ measureNum, trill });
         trill->SetStaff(staff->AttNInteger::StrToXsdPositiveIntegerList(std::to_string(staff->GetN())));
         trill->SetStartid(m_ID);
@@ -3563,6 +3566,7 @@ void MusicXmlInput::ReadMusicXmlNote(
     pugi::xpath_node xmlTurn = notations.node().select_node("ornaments/*[contains(name(), 'turn')]");
     if (xmlTurn) {
         Turn *turn = new Turn();
+        turn->SetID(noteID + std::string(".") + std::string(xmlTurn.node().name()));
         m_controlElements.push_back({ measureNum, turn });
         turn->SetStaff(staff->AttNInteger::StrToXsdPositiveIntegerList(std::to_string(staff->GetN())));
         turn->SetStartid(m_ID);
