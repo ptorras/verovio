@@ -3181,9 +3181,13 @@ void MusicXmlInput::ReadMusicXmlNote(
         // articulation
         std::vector<data_ARTICULATION> artics;
         for (pugi::xml_node articulations : notations.node().children("articulations")) {
+            auto articulations_id = std::string(articulations.attribute("id").as_string());
+            int ii = 0;
             for (pugi::xml_node articulation : articulations.children()) {
+                ii += 1;
                 Artic *artic = new Artic();
-                if (articulation.attribute("id")) artic->SetID(articulation.attribute("id").as_string());
+                auto ident = articulations_id + std::string(".") + std::to_string(ii) + articulation.name();
+                artic->SetID(ident);
                 artics.push_back(ConvertArticulations(articulation.name()));
                 if (!std::strcmp(articulation.name(), "detached-legato")) {
                     // we need to split up this one
