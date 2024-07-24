@@ -179,6 +179,7 @@ void KeySig::GenerateKeyAccidAttribChildren()
             std::optional<KeyAccidInfo> info = this->GetKeyAccidInfoAt(i);
             if (info) {
                 KeyAccid *keyAccid = new KeyAccid();
+                keyAccid->SetID(this->GetID() + std::string(".") + "accidental" + std::to_string(i + 1));
                 keyAccid->SetAccid(info->accid);
                 keyAccid->SetPname(info->pname);
                 keyAccid->IsAttribute(true);
