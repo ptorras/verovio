@@ -107,3 +107,4 @@ cmake-build-debug/
 compile_commands.json
 *.sublime-project
 *.sublime-workspace
+doc/*
