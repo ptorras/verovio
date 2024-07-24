@@ -2016,6 +2016,7 @@ void MusicXmlInput::ReadMusicXmlDirection(
         }
         else {
             BracketSpan *bracketSpan = new BracketSpan();
+            bracketSpan->SetID(bracket.attribute("id").as_string());
             musicxml::OpenSpanner openBracket(voiceNumber, m_measureCounts.at(measure));
             bracketSpan->SetColor(bracket.attribute("color").as_string());
             bracketSpan->SetLform(
@@ -2033,6 +2034,8 @@ void MusicXmlInput::ReadMusicXmlDirection(
     pugi::xml_node xmlCoda = typeNode.child("coda");
     if (xmlCoda) {
         Dir *dir = new Dir();
+        dir->SetID(xmlCoda.attribute("id").as_string());
+
         dir->SetPlace(dir->AttPlacementRelStaff::StrToStaffrel(placeStr.c_str()));
         dir->SetTstamp(timeStamp - 1.0);
         dir->SetType("coda");
@@ -2187,6 +2190,7 @@ void MusicXmlInput::ReadMusicXmlDirection(
         dynamics.sort();
 
         Dynam *dynam = new Dynam();
+
         dynam->SetPlace(dynam->AttPlacementRelStaff::StrToStaffrel(placeStr.c_str()));
         dynam->SetTstamp(timeStamp);
         if (staffNode) {
@@ -2363,6 +2367,7 @@ void MusicXmlInput::ReadMusicXmlDirection(
         }
         else {
             Octave *octave = new Octave();
+            octave->SetID(xmlShift.attribute("id").as_string());
             octave->SetColor(xmlShift.attribute("color").as_string());
             octave->SetDisPlace(octave->AttOctaveDisplacement::StrToStaffrelBasic(placeStr.c_str()));
             octave->SetN(xmlShift.attribute("number").as_string());
