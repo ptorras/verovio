@@ -2188,9 +2188,15 @@ void MusicXmlInput::ReadMusicXmlDirection(
             containsWords ? "direction-type/dynamics|direction-type/words" : "direction-type/dynamics");
 
         dynamics.sort();
+        auto global_id = std::string("");
+        for (pugi::xpath_node sub_node : dynamics) {
+            if (sub_node.node().attribute("id")) {
+                global_id.append(sub_node.node().attribute("id").as_string());
+            }
+        }
 
         Dynam *dynam = new Dynam();
-
+        if (!global_id.empty()) dynam->SetID(global_id);
         dynam->SetPlace(dynam->AttPlacementRelStaff::StrToStaffrel(placeStr.c_str()));
         dynam->SetTstamp(timeStamp);
         if (staffNode) {
@@ -2393,6 +2399,7 @@ void MusicXmlInput::ReadMusicXmlDirection(
         bool pedalLine = xmlPedal.attribute("line").as_bool();
         if (pedalType != "continue") {
             Pedal *pedal = new Pedal();
+            if (xmlPedal.attribute("id")) pedal->SetID(xmlPedal.attribute("id").as_string());
             pedal->SetColor(xmlPedal.attribute("color").as_string());
             // pedal->SetN(xmlPedal.attribute("number").as_string());
             if (!placeStr.empty()) pedal->SetPlace(pedal->AttPlacementRelStaff::StrToStaffrel(placeStr.c_str()));
@@ -2448,6 +2455,7 @@ void MusicXmlInput::ReadMusicXmlDirection(
         else {
             // std::string symbol = lead.node().attribute("symbol").as_string();
             BracketSpan *bracketSpan = new BracketSpan();
+            if (lead.attribute("id")) bracketSpan->SetID(lead.attribute("id").as_string());
             musicxml::OpenSpanner openBracket(voiceNumber, m_measureCounts.at(measure));
             bracketSpan->SetColor(lead.attribute("color").as_string());
             // bracketSpan->SetPlace(bracketSpan->AttPlacementRelStaff::StrToStaffrel(placeStr.c_str()));
@@ -2464,6 +2472,7 @@ void MusicXmlInput::ReadMusicXmlDirection(
     pugi::xml_node rehearsal = typeNode.child("rehearsal");
     if (rehearsal) {
         Reh *reh = new Reh();
+        if (rehearsal.attribute("id")) reh->SetID(rehearsal.attribute("id").as_string());
         reh->SetPlace(reh->AttPlacementRelStaff::StrToStaffrel(placeStr.c_str()));
         const std::string halign = rehearsal.attribute("halign").as_string();
         const std::string lang = rehearsal.attribute("xml:lang") ? rehearsal.attribute("xml:lang").as_string() : "it";
@@ -2489,6 +2498,7 @@ void MusicXmlInput::ReadMusicXmlDirection(
     pugi::xml_node xmlSegno = typeNode.child("segno");
     if (xmlSegno) {
         Dir *dir = new Dir();
+
         dir->SetPlace(dir->AttPlacementRelStaff::StrToStaffrel(placeStr.c_str()));
         dir->SetTstamp(timeStamp - 1.0);
         dir->SetType("segno");
