@@ -2700,6 +2700,7 @@ void MusicXmlInput::ReadMusicXmlNote(
     }
 
     const pugi::xpath_node notations = node.select_node("notations[not(@print-object='no')]");
+    // auto notations_id = std::string(notations.node().attribute("id").as_string());
 
     const bool cue = (node.child("cue") || node.select_node("type[@size='cue']")) ? true : false;
     pugi::xml_node grace = node.child("grace");
@@ -2716,6 +2717,7 @@ void MusicXmlInput::ReadMusicXmlNote(
     bool beamStart = node.select_node("beam[@number='1'][text()='begin']");
     // tremolos
     pugi::xpath_node tremolo = notations.node().select_node("ornaments/tremolo");
+    // auto ornament_id = notations.node().select_node("ornaments").node().attribute("id");
 
     if (tremolo) {
         if (HasAttributeWithValue(tremolo.node(), "type", "start")) {
@@ -3202,7 +3204,9 @@ void MusicXmlInput::ReadMusicXmlNote(
             for (pugi::xml_node articulation : articulations.children()) {
                 ii += 1;
                 Artic *artic = new Artic();
-                auto ident = articulations_id + std::string(".") + std::to_string(ii) + articulation.name();
+
+                // Name articulations
+                auto ident = noteID + std::string(".articulation") + std::to_string(ii) + std::string(".") + articulation.name();
                 artic->SetID(ident);
                 artics.push_back(ConvertArticulations(articulation.name()));
                 if (!std::strcmp(articulation.name(), "detached-legato")) {
