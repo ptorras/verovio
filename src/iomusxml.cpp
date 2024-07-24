@@ -1880,16 +1880,21 @@ void MusicXmlInput::ReadMusicXmlBarLine(pugi::xml_node node, Measure *measure, c
         data_BARRENDITION barRendition = ConvertStyleToRend(barStyle, repeat);
         if (HasAttributeWithValue(node, "location", "left")) {
             measure->SetLeft(barRendition);
+            if (node.attribute("id")) measure->GetLeftBarLine()->SetID(node.attribute("id").as_string());
         }
         else if (HasAttributeWithValue(node, "location", "middle")) {
             BarLine *barLine = new BarLine();
             barLine->SetColor(node.child("bar-style").attribute("color").as_string());
             barLine->SetForm(barRendition);
+
+            if (node.attribute("id")) barLine->SetID(node.attribute("id").as_string());
+
             Layer *layer = SelectLayer(node, measure);
             AddLayerElement(layer, barLine);
         }
         else {
             measure->SetRight(barRendition);
+            if (node.attribute("id")) measure->GetRightBarLine()->SetID(node.attribute("id").as_string());
             if (barStyle == "short" || barStyle == "tick") {
                 measure->SetBarLen(4);
                 if (barStyle == "short") {
