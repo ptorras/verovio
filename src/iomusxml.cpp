@@ -1669,6 +1669,7 @@ bool MusicXmlInput::ReadMusicXmlMeasure(
             const int multiRestLength = multiRestNode.text().as_int();
             const std::string symbols = multiRestNode.attribute("use-symbols").as_string();
             MultiRest *multiRest = new MultiRest;
+            multiRest->SetID(measure->GetID() + ".multi-rest." + std::to_string(multiRestLength));
             if (symbols == "no") {
                 // default by MusicXML specification
                 multiRest->SetBlock(BOOLEAN_true);
@@ -2939,6 +2940,7 @@ void MusicXmlInput::ReadMusicXmlNote(
         }
 
         // notehead
+        // TODO Let's see if I can add the identifier here
         const pugi::xml_node notehead = node.child("notehead");
         if (notehead) {
             note->SetHeadColor(notehead.attribute("color").as_string());
