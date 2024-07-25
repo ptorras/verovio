@@ -86,6 +86,9 @@ Measure::Measure(MeasureType measureMusic, int logMeasureNb)
     m_leftBarLine.SetParent(this);
     m_rightBarLine.SetParent(this);
 
+    m_leftBarLine.SetID(this->GetID() + ".left_barline");
+    m_rightBarLine.SetID(this->GetID() + ".right_barline");
+
     // owned pointers need to be set to NULL;
     m_drawingScoreDef = NULL;
 
@@ -683,6 +686,14 @@ std::vector<std::pair<LayerElement *, LayerElement *>> Measure::GetInternalTieEn
     }
 
     return endpoints;
+}
+
+void Measure::SetID(const std::string &id)
+{
+    Object::SetID(id);
+
+    m_leftBarLine.SetID(id + ".left_barline");
+    m_rightBarLine.SetID(id + ".right_barline");
 }
 
 //----------------------------------------------------------------------------

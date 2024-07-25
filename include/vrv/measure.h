@@ -159,6 +159,8 @@ public:
     void SetDrawingRightBarLine(data_BARRENDITION type) { m_rightBarLine.SetForm(type); }
     data_BARRENDITION GetDrawingLeftBarLineByStaffN(int staffN) const;
     data_BARRENDITION GetDrawingRightBarLineByStaffN(int staffN) const;
+
+    void SetID(const std::string &id);
     ///@}
 
     /**
