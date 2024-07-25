@@ -2973,6 +2973,7 @@ void MusicXmlInput::ReadMusicXmlNote(
             // create the chord if we are starting a new chord
             if (m_elementStackMap.at(layer).empty() || !m_elementStackMap.at(layer).back()->Is(CHORD)) {
                 chord = new Chord();
+                chord->SetID(std::string("chord.") + noteID);
                 chord->SetDur(ConvertTypeToDur(typeStr));
                 chord->SetDurPpq(duration);
                 if (dots > 0) chord->SetDots(dots);
@@ -3005,6 +3006,7 @@ void MusicXmlInput::ReadMusicXmlNote(
             if (chord == NULL && m_elementStackMap.at(layer).size() > 0
                 && m_elementStackMap.at(layer).back()->Is(CHORD)) {
                 chord = vrv_cast<Chord *>(m_elementStackMap.at(layer).back());
+                chord->SetID(chord->GetID() + std::string("_") + noteID);
             }
             if (!chord) {
                 LogError("MusicXML import: Chord starting point has not been found");
