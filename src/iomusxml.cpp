@@ -3858,6 +3858,7 @@ void MusicXmlInput::ReadMusicXmlTupletStart(const pugi::xml_node &node, const pu
 
     Tuplet *tuplet = new Tuplet();
     AddLayerElement(layer, tuplet);
+    tuplet->SetID(tupletStart.attribute("id").as_string());
     m_elementStackMap.at(layer).push_back(tuplet);
     short int num = node.select_node("time-modification/actual-notes").node().text().as_int();
     short int numbase = node.select_node("time-modification/normal-notes").node().text().as_int();
