@@ -1349,10 +1349,10 @@ short int MusicXmlInput::ReadMusicXmlPartAttributesAsStaffDef(
             }
             Clef *meiClef = ConvertClef(clef.node());
 
-            // To ensure that clef identifiers are propagated, create a unique ID for a clef falling on each staff
-            meiClef->SetID(StringFormat("%s_%d", meiClef->GetID().c_str(), i + 1));
 
             if (meiClef) {
+                // To ensure that clef identifiers are propagated, create a unique ID for a clef falling on each staff
+                meiClef->SetID(StringFormat("%s_%d", meiClef->GetID().c_str(), i + 1));
                 staffDef->AddChild(meiClef);
                 // if TAB assume guitar tablature until we examine <staff-details>, if any
                 if (meiClef->GetShape() == CLEFSHAPE_TAB) staffDef->SetNotationtype(NOTATIONTYPE_tab_guitar);
