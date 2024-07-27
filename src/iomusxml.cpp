@@ -2720,10 +2720,15 @@ void MusicXmlInput::ReadMusicXmlNote(
     pugi::xpath_node tremolo = notations.node().select_node("ornaments/tremolo");
     // auto ornament_id = notations.node().select_node("ornaments").node().attribute("id");
 
+    // Moved here to have the id for Tremolo objects
+    const std::string noteID = node.attribute("id").as_string();
+
+
     if (tremolo) {
         if (HasAttributeWithValue(tremolo.node(), "type", "start")) {
             if (!isChord) {
                 FTrem *fTrem = new FTrem();
+                fTrem->SetID(noteID + ".tremolo_beam");
                 AddLayerElement(layer, fTrem);
                 m_elementStackMap.at(layer).push_back(fTrem);
                 int beamFloatNum = tremolo.node().text().as_int(); // number of floating beams
@@ -2742,6 +2747,7 @@ void MusicXmlInput::ReadMusicXmlNote(
             tremSlashNum = tremolo.node().text().as_int();
             if (!isChord) {
                 BTrem *bTrem = new BTrem();
+                bTrem->SetID(noteID + ".tremolo_single");
                 AddLayerElement(layer, bTrem);
                 m_elementStackMap.at(layer).push_back(bTrem);
                 if (HasAttributeWithValue(tremolo.node(), "type", "unmeasured")) {
@@ -2755,7 +2761,6 @@ void MusicXmlInput::ReadMusicXmlNote(
         }
     }
 
-    const std::string noteID = node.attribute("id").as_string();
     const int duration = node.child("duration").text().as_int();
     const int noteStaffNum = node.child("staff").text().as_int();
     const pugi::xml_node rest = node.child("rest");
