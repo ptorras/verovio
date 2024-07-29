@@ -1463,7 +1463,7 @@ short int MusicXmlInput::ReadMusicXmlPartAttributesAsStaffDef(
             time = it->select_node(xpath.c_str());
             if (!time) {
                 time = it->select_node("time[not(@number)]");
-                if (nbStaves > 1) time.node().remove_attribute("id");
+                // if (nbStaves > 1) time.node().remove_attribute("id");
             }
             if (time) {
                 ReadMusicXMLMeterSig(time.node(), staffDef);
