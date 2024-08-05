@@ -1115,6 +1115,10 @@ bool MusicXmlInput::ReadMusicXml(pugi::xml_node root)
                 + "', type='" + iter->second.m_endingType.c_str() + "', text='" + iter->second.m_endingText + "' (";
             std::vector<Measure *> measureList = iter->first;
             Ending *ending = new Ending();
+            
+            // identification
+            ending->SetID("ending." + iter->second.m_endingNumber);
+            
             if (iter->second.m_endingText
                     .empty()) { // some musicXML exporters tend to ignore the <ending> text, so take @number instead.
                 ending->SetN(iter->second.m_endingNumber);
