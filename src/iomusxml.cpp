@@ -1371,7 +1371,7 @@ short int MusicXmlInput::ReadMusicXmlPartAttributesAsStaffDef(
             }
             if (key) {
                 KeySig *meiKey = ConvertKey(key.node());
-                // To ensure that clef identifiers are propagated, create a unique ID for a key falling on each staff
+                // To ensure that key identifiers are propagated, create a unique ID for a key falling on each staff
                 meiKey->SetID(StringFormat("%s_%d", meiKey->GetID().c_str(), i + 1));
 
                 staffDef->AddChild(meiKey);

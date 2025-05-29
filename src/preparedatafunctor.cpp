@@ -1295,10 +1295,10 @@ Stem *PrepareLayerElementPartsFunctor::EnsureStemExists(Stem *stem, Object *pare
 
     if (!stem) {
         stem = new Stem();
-        stem->SetID(parent->GetID() + ".stem");
         stem->IsAttribute(true);
         parent->AddChild(stem);
     }
+    stem->SetID(parent->GetID() + ".stem");
     return stem;
 }
 
